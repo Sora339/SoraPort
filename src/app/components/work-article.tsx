@@ -8,8 +8,7 @@ import Link from "next/link";
 
 export default function WorkArticle({ content }: { content: WorkArticleType }) {
   return (
-    <div className="">
-      <div className="container mx-auto px-4 py-8 lg:px-12 lg:py-16">
+      <div className="container mx-auto px-4 my-8 lg:px-12 lg:my-16">
         {/* ナビゲーション */}
         <div className="mb-4 lg:mb-8">
           <Button variant="ghost" asChild>
@@ -105,6 +104,5 @@ export default function WorkArticle({ content }: { content: WorkArticleType }) {
           </Button>
         </div>
       </div>
-    </div>
   );
 }

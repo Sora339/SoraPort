@@ -7,8 +7,7 @@ import Link from "next/link";
 
 export default function BlogArticle({ content }: { content: BlogArticleType }) {
   return (
-    <div className="">
-      <div className="container mx-auto px-4 py-8 lg:px-12 lg:py-16">
+      <div className="container mx-auto px-4 my-8 lg:px-12 lg:my-16">
         {/* ナビゲーション */}
         <div className="mb-4 lg:mb-8 text-left">
           <Button variant="ghost" asChild>
@@ -49,6 +48,5 @@ export default function BlogArticle({ content }: { content: BlogArticleType }) {
           </Button>
         </div>
       </div>
-    </div>
   );
 }

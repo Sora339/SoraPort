@@ -18,7 +18,7 @@ export default function BlogArticlelist({
 }: ArticlelistProps) {
   console.log(contents);
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 my-8 lg:px-12 lg:my-16">
       {/* ナビゲーション */}
       <div className="mb-8 text-white">
         <Button variant="ghost" asChild>

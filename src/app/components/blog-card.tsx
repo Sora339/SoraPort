@@ -27,11 +27,12 @@ export default function BlogCard({
             className="object-cover transition-transform hover:scale-105"
           />
         </div>
-        <CardContent className="p-6 py-6">
-          <time className="font-semibold text-sm text-muted-foreground mb-4">
+        <CardContent className="p-5 lg:p-6">
+
+          <h3 className="line-clamp-2 mb-1 md:mb-2 h-[3rem] font-semibold text-[1rem] leading-6 md:text-[1.3rem]">{title}</h3>
+          <time className="font-semibold text-sm text-muted-foreground">
             {format(date, "yyyy-MM-dd")}
           </time>
-          <h3 className="font-semibold text-xl mb-2">{title}</h3>
         </CardContent>
       </Link>
     </Card>

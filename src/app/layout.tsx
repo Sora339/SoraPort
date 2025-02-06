@@ -30,7 +30,7 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body
-        className={`${Poppins_style.variable} ${Noto_style.variable} text-white font-Poppin bg-[url('/img/layered-peaks-haikei.svg')] bg-cover bg-fixed`}
+        className={`${Poppins_style.variable} ${Noto_style.variable} text-white bg-[url('/img/layered-peaks-haikei.svg')] bg-cover bg-fixed`}
       >
         <div>
         {children}

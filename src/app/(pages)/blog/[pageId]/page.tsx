@@ -54,7 +54,7 @@ export default async function Blog({ params }: { params: { pageId: string } }) {
   }
 
   return (
-    <div className="py-[75px] font-bold text-[20px] text-black leading-10">
+    <div className="my-[75px] font-bold text-[20px] text-black leading-10">
       <Articlelist
         contents={contents}
         currentPage={currentPage}

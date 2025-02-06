@@ -1,5 +1,5 @@
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { Github } from "lucide-react";
+import { Github, Globe } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -47,26 +47,25 @@ export default function WorkCard({
             ))}
           </div>
         </CardContent>
+      </Link>
+      <CardFooter className="p-4 pt-0">
+        <Link
+          href={deployLink}
+          target="_blank"
+          className="inline-flex items-center gap-2 text-sm hover:underline"
+        >
+          <Globe className="h-4 w-4" />
+          サイトを見る
         </Link>
-        <CardFooter className="p-4 pt-0">
-          <Link
-            href={githubLink}
-            target="_blank"
-            className="inline-flex items-center gap-2 text-sm hover:underline"
-          >
-            <Github className="h-4 w-4" />
-            View on GitHub
-          </Link>
-          <Link
-            href={deployLink}
-            target="_blank"
-            className="ml-4 inline-flex items-center gap-2 text-sm hover:underline"
-          >
-            <Github className="h-4 w-4" />
-            Deploy
-          </Link>
-        </CardFooter>
-
+        <Link
+          href={githubLink}
+          target="_blank"
+          className="ml-4 inline-flex items-center gap-2 text-sm hover:underline"
+        >
+          <Github className="h-4 w-4" />
+          ソースコード
+        </Link>
+      </CardFooter>
     </Card>
   );
 }
