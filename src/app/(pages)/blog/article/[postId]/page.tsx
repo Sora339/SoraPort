@@ -14,8 +14,8 @@ export async function generateMetadata({
 
   if (!article) {
     return {
-      title: "業務ブログ",
-      description: "AIM Commonsスタッフからの発信です",
+      title: "ブログ",
+      description: "Sora_339の日々の発信を行います。",
     };
   }
 

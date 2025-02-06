@@ -6,6 +6,12 @@ import CareerTimeline from "@/app/components/carrer-timeline";
 import { getBlogList, getWorkList } from "@/lib/microcms";
 import WorkCard from "@/app/components/work-card";
 import BlogCard from "@/app/components/blog-card";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "SoraPort",
+  description: "Sora_339のポートフォリオサイトです。",
+};
 
 export default async function Page() {
   const articlesListQueries = {

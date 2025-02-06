@@ -5,8 +5,8 @@ import { getBlogList } from "@/lib/microcms";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "業務ブログ",
-  description: "AIM Commonsスタッフからの発信です",
+  title: "ブログ",
+  description: "日々の発信を行います。",
 };
 
 export async function generateStaticParams() {
@@ -54,7 +54,7 @@ export default async function Blog({ params }: { params: { pageId: string } }) {
   }
 
   return (
-    <div className="my-[75px] font-bold text-[20px] text-black leading-10">
+    <div className="font-bold text-[20px] text-black leading-10">
       <Articlelist
         contents={contents}
         currentPage={currentPage}
