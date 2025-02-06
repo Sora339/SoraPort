@@ -11,6 +11,26 @@ body {
 	.text-balance {
 		text-wrap: balance;
 	}
+	@media (max-width: 640px) {
+		.prose {
+		  max-width: 95%;
+		  min-width: 95%;
+		}
+	  }
+	
+	  @media (min-width: 768px) {
+		.prose {
+		  max-width: 85%;
+		  min-width: 85%;
+		}
+	  }
+	
+	  @media (min-width: 1024px) {
+		.prose {
+		  max-width: 75%;
+		  min-width: 75%;
+		}
+	  }
 }
 
 /* Base Layer */

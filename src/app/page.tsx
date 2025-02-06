@@ -158,7 +158,7 @@ export default async function Page() {
                 description={work.description}
                 detailLink={`/work/article/${work.id}`}
                 githubLink={work.githubLink}
-                deployLink={work.deployLink}
+                deployLink={work.deployLink || ""}
                 key={work.id}
               />
             ))}

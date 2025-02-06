@@ -11,7 +11,8 @@ export type BlogArticleType = {
 export type WorkArticleType = {
   techs: string[];
   period: string;
+  award?: string;
   description: string;
   githubLink: string;
-  deployLink: string;
+  deployLink?: string;
 } & BlogArticleType;

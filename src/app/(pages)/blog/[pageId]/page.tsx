@@ -2,12 +2,6 @@ import { notFound } from "next/navigation";
 import Articlelist from "@/app/components/blog-article-list";
 import { LIMIT } from "@/lib/constants";
 import { getBlogList } from "@/lib/microcms";
-import type { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "ブログ",
-  description: "日々の発信を行います。",
-};
 
 export async function generateStaticParams() {
   const queries = { limit: LIMIT, fields: "id" };

@@ -25,26 +25,31 @@ export default function WorkCard({
   return (
     <Card className="overflow-hidden hover:shadow-lg transform hover:scale-105 transition-transform duration-300 border-0">
       <Link href={detailLink}>
-        <div className="relative aspect-video">
-          <Image
-            src={image || "/placeholder.svg"}
-            alt={title}
-            fill
-            className="object-cover transition-transform hover:scale-105"
-          />
-        </div>
+        <Image
+          src={image || "/placeholder.svg"}
+          alt={title}
+          width={500}
+          height={330}
+          className="object-cover aspect-video transition-transform hover:scale-105"
+        />
+
         <CardContent className="p-6">
-          <h3 className="font-semibold text-2xl mb-2">{title}</h3>
-          <p className="text-sm text-muted-foreground mb-4">{description}</p>
+          <h3 className="font-semibold text-2xl mb-2 line-clamp-1">{title}</h3>
+          <p className="text-sm text-muted-foreground mb-4 line-clamp-1">
+            {description}
+          </p>
           <div className="flex flex-wrap gap-2">
-            {techs.map((tech) => (
-              <span
-                key={tech}
-                className="inline-flex items-center rounded-md bg-muted px-2 py-1 text-xs font-medium ring-1 ring-inset ring-gray-500/10"
-              >
-                {tech}
-              </span>
-            ))}
+            {techs
+              .slice(0, 3)
+              .sort()
+              .map((tech) => (
+                <span
+                  key={tech}
+                  className="inline-flex items-center rounded-md bg-primary/10 px-2 py-1 text-xs font-medium ring-1 ring-inset ring-gray-500/30"
+                >
+                  {tech}
+                </span>
+              ))}
           </div>
         </CardContent>
       </Link>

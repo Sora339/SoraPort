@@ -24,7 +24,7 @@ export default function WorkArticlelist({
           description={content.description}
           detailLink={`/blog/${content.id}`}
           githubLink={content.githubLink}
-          deployLink={content.deployLink}
+          deployLink={content.deployLink || ""}
           key={content.id}
         />
 

@@ -1,29 +1,6 @@
 import { notFound } from "next/navigation";
-import {
-  getWorkDetail,
-  getWorkList,
-} from "@/lib/microcms";
+import { getWorkDetail, getWorkList } from "@/lib/microcms";
 import WorkArticle from "@/app/components/work-article";
-
-export async function generateMetadata({
-  params: { postId },
-}: {
-  params: { postId: string };
-}) {
-  const article = await getWorkDetail(postId);
-
-  if (!article) {
-    return {
-      title: "作品集",
-      description: "Sora_330の作品を紹介します。",
-    };
-  }
-
-  return {
-    title: `${article.title}`,
-    description: article.content,
-  };
-}
 
 export async function generateStaticParams() {
   const { contents } = await getWorkList();
