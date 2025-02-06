@@ -54,14 +54,16 @@ export default function WorkCard({
         </CardContent>
       </Link>
       <CardFooter className="p-4 pt-0">
-        <Link
-          href={deployLink}
-          target="_blank"
-          className="inline-flex items-center gap-2 text-sm hover:underline"
-        >
-          <Globe className="h-4 w-4" />
-          サイトを見る
-        </Link>
+        {deployLink && (
+          <Link
+            href={deployLink}
+            target="_blank"
+            className="inline-flex items-center gap-2 text-sm hover:underline"
+          >
+            <Globe className="h-4 w-4" />
+            サイトを見る
+          </Link>
+        )}
         <Link
           href={githubLink}
           target="_blank"

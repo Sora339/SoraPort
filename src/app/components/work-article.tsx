@@ -30,13 +30,13 @@ export default function WorkArticle({ content }: { content: WorkArticleType }) {
 
           {/* メタ情報 */}
           <div className="mb-6 flex flex-wrap flex-col gap-2">
-            <div className="flex items-center text-muted-foreground">
+            <div className="flex items-baseline text-muted-foreground">
               <Calendar className="mr-2 h-4 w-4" />
               {content.period}
             </div>
             {content.award && (
-              <div className="flex items-center text-muted-foreground">
-                <Trophy className="mr-2 h-4 w-4" />
+              <div className="flex items-baseline text-muted-foreground">
+                <Trophy className="mr-2 h-4 w-4 flex-shrink-0" />
                 {content.award}
               </div>
             )}
