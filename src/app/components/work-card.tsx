@@ -23,7 +23,7 @@ export default function WorkCard({
   techs,
 }: ProjectCardProps) {
   return (
-    <Card className="overflow-hidden hover:shadow-lg transform hover:scale-105 transition-transform duration-300 border-0">
+    <Card className="max-w-[400px] md:max-w-[450px] lg:max-w-[500px] mx-auto overflow-hidden hover:shadow-lg transform hover:scale-105 transition-transform duration-300 border-0">
       <Link href={detailLink}>
         <Image
           src={image || "/placeholder.svg"}

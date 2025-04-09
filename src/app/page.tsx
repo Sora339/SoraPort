@@ -149,7 +149,7 @@ export default async function Page() {
           <h2 className="text-3xl font-bold sm:text-4xl md:text-5xl mb-12 text-center">
             Works
           </h2>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
             {workcontents.contents.map((work) => (
               <WorkCard
                 title={work.title}
@@ -189,7 +189,7 @@ export default async function Page() {
             Blog
           </h2>
 
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
             {blogcontents.contents.map((content) => (
               <BlogCard
                 title={content.title}

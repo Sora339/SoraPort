@@ -32,7 +32,7 @@ export default function BlogArticlelist({
         Blog
       </h1>
 
-      <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3 w-fit mx-auto">
+      <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3 w-fit mx-auto px-4 sm:px-0">
         {contents.map((content) => (
           <BlogCard
             title={content.title}
