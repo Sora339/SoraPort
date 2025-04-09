@@ -16,7 +16,7 @@ export const Pagination = ({
     condition ? "opacity-50 pointer-events-none" : "";
 
   return (
-    <ul className="mt-8 flex items-center justify-center space-x-1 md:space-x-4">
+    <ul className="mt-20 flex items-center justify-center space-x-3 md:space-x-4">
       <li>
         <Link
           href={createHref(1)}

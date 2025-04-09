@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     siteName: "SoraPort",
     url: "https://nextsorablog.com/",
     images: {
-      url: "/img/ogp.png",
+      url: "https://nextsorablog.com/img/ogp.png",
       type: "image/png",
       width: 1200,
       height: 630,
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
       "Sora_339のポートフォリオサイトです。",
     site: "SoraPort",
     images: {
-      url: "/img/ogp.png",
+      url: "https://nextsorablog.com/img/ogp.png",
       type: "image/png",
       width: 1200,
       height: 630,
@@ -57,9 +57,9 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body
-        className={`${Poppins_style.variable} ${Noto_style.variable} text-white bg-[url('/img/layered-peaks-haikei.svg')] bg-cover bg-fixed`}
+        className={`${Poppins_style.variable} ${Noto_style.variable} text-white bg-[url('/img/layered-peaks-haikei.svg')] bg-cover min-h-screen bg-fixed flex flex-col`}
       >
-        <div>
+        <div className="flex-grow">
         {children}
         </div>
         <Footer/>
