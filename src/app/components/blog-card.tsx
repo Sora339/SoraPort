@@ -17,7 +17,7 @@ export default function BlogCard({
   detailLink,
 }: ProjectCardProps) {
   return (
-    <Card className="max-w-[360px] lg:max-w-[400px] mx-auto overflow-hidden border-0 hover:shadow-lg transform hover:scale-105 transition-transform duration-300">
+    <Card className="max-w-[400px] md:max-w-[450px] lg:max-w-[500px] mx-auto overflow-hidden border-0 hover:shadow-lg transform hover:scale-105 transition-transform duration-300">
       <Link href={detailLink}>
         <Image
           src={image || "/placeholder.svg"}

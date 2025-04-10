@@ -26,7 +26,7 @@ const careers = [
     company: "静岡県立磐田南高等学校",
     position: "",
     description:
-      "宇宙線の周期性に関するPythonを用いたデータ分析を研究。",
+      "Pythonを用いて、宇宙線の周期性に関するデータ分析を研究する。",
     icon: Building2,
   },
 ];
