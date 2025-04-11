@@ -5,6 +5,25 @@ import {
 } from "@/lib/microcms";
 import BlogArticle from "@/app/components/blog-article";
 
+type searchParamsType = {
+  draftKey?: string;
+}
+
+export async function generateMetadata({ searchParams }: {searchParams: searchParamsType}) {
+  const metadata: {
+    robots?: {
+      index: boolean;
+    };
+  } = {};
+
+  if (searchParams.draftKey) {
+    metadata.robots = {
+      index: false,
+    };
+  }
+  return metadata;
+}
+
 export async function generateStaticParams() {
   const { contents } = await getBlogList();
 
@@ -18,11 +37,12 @@ export async function generateStaticParams() {
 }
 
 export default async function StaticDetailPage({
-  params: { postId },
+  params: { postId },searchParams
 }: {
-  params: { postId: string };
+  params: { postId: string },searchParams: searchParamsType;
 }) {
-  const article = await getBlogDetail(postId);
+  const queries = { draftKey: searchParams.draftKey };
+  const article = await getBlogDetail(postId, queries);
 
   if (!article) {
     console.error("Post not found:", postId);
