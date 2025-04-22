@@ -1,27 +1,32 @@
 import { notFound } from "next/navigation";
 import { getWorkDetail, getWorkList } from "@/lib/microcms";
-import WorkArticle from "@/app/components/work-article";
+import BlogArticle from "@/app/components/blog-article";
+import { draftMode } from "next/headers";
 
-type searchParamsType = {
-  draftKey?: string;
-};
-
-export async function generateMetadata({ searchParams }: {searchParams: searchParamsType}) {
+export async function generateMetadata({
+  params,
+  searchParams,
+}: {
+  params: { postId: string };
+  searchParams: { draftKey?: string };
+}) {
   const metadata: {
     robots?: {
       index: boolean;
     };
   } = {};
 
-  if (searchParams.draftKey) {
+  const { isEnabled } = draftMode();
+
+  if (isEnabled || searchParams.draftKey) {
     metadata.robots = {
       index: false,
     };
   }
+
   return metadata;
 }
 
-// 公開済みコンテンツ用の静的パラメータのみを生成
 export async function generateStaticParams() {
   const { contents } = await getWorkList();
 
@@ -34,18 +39,20 @@ export async function generateStaticParams() {
   return paths;
 }
 
-// レンダリング動作を制御する動的設定を追加
-export const dynamicParams = true;
-
-export default async function DetailPage({
+export default async function WorkDetailPage({
   params: { postId },
   searchParams,
 }: {
-  params: { postId: string },searchParams: searchParamsType;
+  params: { postId: string };
+  searchParams: { draftKey?: string };
 }) {
-  const queries = { draftKey: searchParams.draftKey };
+  const { isEnabled } = draftMode();
 
-  // draftKeyが存在する場合は動的レンダリングを強制
+  // Draft Modeが有効な場合または直接draftKeyが指定されている場合
+  // draftKeyを含めてコンテンツを取得
+  const queries = searchParams.draftKey
+    ? { draftKey: searchParams.draftKey }
+    : {};
   const article = await getWorkDetail(postId, queries);
 
   if (!article) {
@@ -53,5 +60,14 @@ export default async function DetailPage({
     notFound();
   }
 
-  return <WorkArticle content={article} />;
+  return (
+    <>
+      {(isEnabled || searchParams.draftKey) && (
+        <div className="text-lg">
+          プレビューモード中 - これは下書きのプレビューです
+        </div>
+      )}
+      <BlogArticle content={article} />
+    </>
+  );
 }
