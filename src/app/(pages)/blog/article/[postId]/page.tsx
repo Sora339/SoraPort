@@ -4,10 +4,8 @@ import BlogArticle from "@/app/components/blog-article";
 import { draftMode } from "next/headers";
 
 export async function generateMetadata({
-  params,
   searchParams,
 }: {
-  params: { postId: string };
   searchParams: { draftKey?: string };
 }) {
   const metadata: {

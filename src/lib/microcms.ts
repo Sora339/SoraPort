@@ -33,7 +33,7 @@ export const getWorkDetail = async (
   queries?: MicroCMSQueries
 ) => {
   // Draft Modeの状態を確認
-  let draftQueries = { ...queries };
+  const draftQueries = { ...queries };
 
   // すでにdraftKeyがクエリに存在する場合はそのまま使用
   if (!draftQueries.draftKey) {
@@ -91,7 +91,7 @@ export const getBlogDetail = async (
   queries?: MicroCMSQueries
 ) => {
   // Draft Modeの状態を確認
-  let draftQueries = { ...queries };
+  const draftQueries = { ...queries };
 
   // すでにdraftKeyがクエリに存在する場合はそのまま使用
   if (!draftQueries.draftKey) {
