@@ -5,14 +5,12 @@
 [[plugins]]
   package = "@netlify/plugin-nextjs"
 
+# 全てのリクエストをNext.jsに渡す
 [[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/api/:splat"
+  from = "/*"
+  to = "/.netlify/functions/next_server"
   status = 200
-
-[functions]
-  external_node_modules = ["cheerio"]
-  node_bundler = "esbuild"
 
 [build.environment]
   NODE_VERSION = "18"
+  NEXT_USE_NETLIFY_EDGE = "true"
