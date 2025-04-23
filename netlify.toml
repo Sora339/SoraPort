@@ -15,5 +15,4 @@
   node_bundler = "esbuild"
 
 [build.environment]
-  NODE_VERSION = "18.x"
-  NEXT_USE_NETLIFY_EDGE = "true"
+  NODE_VERSION = "18"
