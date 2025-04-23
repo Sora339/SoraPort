@@ -1,0 +1,19 @@
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+
+[functions]
+  external_node_modules = ["cheerio"]
+  node_bundler = "esbuild"
+
+[build.environment]
+  NODE_VERSION = "18.x"
+  NEXT_USE_NETLIFY_EDGE = "true"

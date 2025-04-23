@@ -36,6 +36,22 @@ export function LinkPreview({ url, children }: LinkPreviewProps): JSX.Element {
     fetchOgpData();
   }, [url]);
 
+  // 外部画像URLをプロキシ経由に変換する関数
+  const getProxiedImageUrl = (originalUrl: string) => {
+    if (!originalUrl) return "";
+
+    // 自分のドメインの画像はそのまま返す
+    if (
+      originalUrl.startsWith("/") ||
+      originalUrl.includes("nextsorablog.com")
+    ) {
+      return originalUrl;
+    }
+
+    // 外部画像はプロキシを使用
+    return `/api/image_proxy?url=${encodeURIComponent(originalUrl)}`;
+  };
+
   if (loading) {
     return (
       <div className="my-4">
@@ -85,11 +101,12 @@ export function LinkPreview({ url, children }: LinkPreviewProps): JSX.Element {
             {ogpData.image && (
               <div className="w-[30%] sm:w-[50%] md:w-[60%] lg:w-[45%] xl:w-[40%] 2xl:w-[35%] h-fit relative">
                 <Image
-                  src={ogpData.image}
+                  src={getProxiedImageUrl(ogpData.image)}
                   alt={ogpData.title || "リンクプレビュー"}
                   width={500}
                   height={330}
                   className="object-cover aspect-square sm:aspect-video my-0"
+                  unoptimized={!ogpData.image.startsWith("/")} // 外部画像はNext.jsの最適化を無効化
                 />
               </div>
             )}

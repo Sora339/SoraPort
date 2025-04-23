@@ -11,6 +11,8 @@ const nextConfig = {
         hostname: '**',
       },
     ],
+    // プロキシを使用する場合は、unoptimizedをtrueに設定することも検討
+    unoptimized: false, // 必要に応じてtrueに変更
   },
 };
 
