@@ -7,15 +7,11 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: "**",
+        protocol: 'https',
+        hostname: '**',
       },
     ],
-    // プロキシを使用する場合は、unoptimizedをtrueに設定することも検討
-    unoptimized: false, // 必要に応じてtrueに変更
+    unoptimized: true, // 外部画像の最適化を無効化
   },
-  // 以下を追加
-  output: "standalone",
 };
-
 export default nextConfig;

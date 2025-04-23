@@ -3,12 +3,24 @@ import { useState, useEffect, ReactNode } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import Image from "next/image";
-import { OgpData } from "@/types/ogp";
+
+interface OgpData {
+  title: string;
+  description?: string | null; // nullも許容するように修正
+  image?: string | null; // nullも許容するように修正
+  siteName?: string | null; // nullも許容するように修正
+  url: string;
+}
 
 interface LinkPreviewProps {
   url: string;
   children: ReactNode;
 }
+
+const CORS_PROXIES = [
+  "https://api.codetabs.com/v1/proxy?quest="
+];
+
 
 export function LinkPreview({ url, children }: LinkPreviewProps): JSX.Element {
   const [ogpData, setOgpData] = useState<OgpData | null>(null);
@@ -16,41 +28,63 @@ export function LinkPreview({ url, children }: LinkPreviewProps): JSX.Element {
   const [error, setError] = useState<boolean>(false);
 
   useEffect(() => {
-    const fetchOgpData = async (): Promise<void> => {
-      try {
-        const response = await fetch(`/api/ogp?url=${encodeURIComponent(url)}`);
-        const data = await response.json();
+    const fetchOgpDataClient = async (): Promise<void> => {
+      for (const proxy of CORS_PROXIES) {
+        try {
+          // 各プロキシを試す
+          const proxyUrl = `${proxy}${encodeURIComponent(url)}`;
+          const response = await fetch(proxyUrl);
+          
+          // レスポンスの形式に応じて処理を変える
+          let html = '';
+          if (proxy.includes('allorigins')) {
+            const data = await response.json();
+            html = data.contents;
+          } else {
+            html = await response.text();
+          }
 
-        if (data.success && data.ogp) {
-          setOgpData({ ...data.ogp, url });
-        } else {
-          setError(true);
+          // HTMLがない場合は次のプロキシを試す
+          if (!html) {
+            continue;
+          }
+          
+          // DOMParserはブラウザ環境でのみ使用可能
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, 'text/html');
+          
+          const ogp: OgpData = {
+            title: doc.querySelector('meta[property="og:title"]')?.getAttribute('content') || 
+                   doc.querySelector('title')?.textContent || url,
+            description: doc.querySelector('meta[property="og:description"]')?.getAttribute('content') || 
+                       doc.querySelector('meta[name="description"]')?.getAttribute('content') || '',
+            image: doc.querySelector('meta[property="og:image"]')?.getAttribute('content') || null,
+            siteName: doc.querySelector('meta[property="og:site_name"]')?.getAttribute('content') || null,
+            url: url
+          };
+          
+          // 有効なOGPデータが取得できたら設定して処理終了
+          if (ogp.title && (ogp.title !== url || ogp.image)) {
+            setOgpData(ogp);
+            setLoading(false);
+            return;
+          }
+        } catch (err) {
+          console.error(`${proxy}でのOGP取得エラー:`, err);
+          // エラーが発生しても次のプロキシを試す
+          continue;
         }
-      } catch {
-        setError(true);
-      } finally {
-        setLoading(false);
       }
+      
+      // すべてのプロキシで失敗した場合
+      console.error('すべてのプロキシでOGP取得に失敗');
+      setError(true);
+      setLoading(false);
     };
 
-    fetchOgpData();
+    fetchOgpDataClient();
   }, [url]);
 
-  // 外部画像URLをプロキシ経由に変換する関数
-  const getProxiedImageUrl = (originalUrl: string) => {
-    if (!originalUrl) return "";
-
-    // 自分のドメインの画像はそのまま返す
-    if (
-      originalUrl.startsWith("/") ||
-      originalUrl.includes("nextsorablog.com")
-    ) {
-      return originalUrl;
-    }
-
-    // 外部画像はプロキシを使用
-    return `/api/image_proxy?url=${encodeURIComponent(originalUrl)}`;
-  };
 
   if (loading) {
     return (
@@ -101,12 +135,12 @@ export function LinkPreview({ url, children }: LinkPreviewProps): JSX.Element {
             {ogpData.image && (
               <div className="w-[30%] sm:w-[50%] md:w-[60%] lg:w-[45%] xl:w-[40%] 2xl:w-[35%] h-fit relative">
                 <Image
-                  src={getProxiedImageUrl(ogpData.image)}
+                  src={ogpData.image}
                   alt={ogpData.title || "リンクプレビュー"}
                   width={500}
                   height={330}
                   className="object-cover aspect-square sm:aspect-video my-0"
-                  unoptimized={!ogpData.image.startsWith("/")} // 外部画像はNext.jsの最適化を無効化
+                  unoptimized={true} // 外部画像の最適化をスキップ
                 />
               </div>
             )}
