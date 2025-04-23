@@ -1,24 +1,45 @@
 import { notFound } from "next/navigation";
 import { getWorkDetail, getWorkList } from "@/lib/microcms";
-import BlogArticle from "@/app/components/blog-article";
 import { draftMode } from "next/headers";
+import { Metadata } from "next";
+import WorkArticle from "@/app/components/work-article";
 
 export async function generateMetadata({
+  params,
   searchParams,
 }: {
+  params: { id: string },
   searchParams: { draftKey?: string };
-}) {
-  const metadata: {
-    robots?: {
-      index: boolean;
-    };
-  } = {};
+}): Promise<Metadata> {
+  const work = await getWorkDetail(params.id);
+  
+  // メタデータの基本構造を作成
+  const metadata: Metadata = {
+    title: work?.title,
+    description: work?.content || `${work?.title}に関する記事です`,
+  };
 
+  // 下書きモードまたはdraftKeyが存在する場合、indexingを無効化
   const { isEnabled } = draftMode();
-
   if (isEnabled || searchParams.draftKey) {
     metadata.robots = {
       index: false,
+    };
+  }
+
+  // OGP情報があれば追加
+  if (work?.eyecatch) {
+    metadata.openGraph = {
+      title: work.title,
+      description: work.content || `${work.title}に関する記事です`,
+      images: [
+        {
+          url: work.eyecatch.url,
+          width: work.eyecatch.width,
+          height: work.eyecatch.height,
+          alt: work.title,
+        },
+      ],
     };
   }
 
@@ -65,7 +86,7 @@ export default async function WorkDetailPage({
           プレビューモード中 - これは下書きのプレビューです
         </div>
       )}
-      <BlogArticle content={article} />
+      <WorkArticle content={article} />
     </>
   );
 }

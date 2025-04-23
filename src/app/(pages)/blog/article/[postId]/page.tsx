@@ -2,23 +2,44 @@ import { notFound } from "next/navigation";
 import { getBlogDetail, getBlogList } from "@/lib/microcms";
 import BlogArticle from "@/app/components/blog-article";
 import { draftMode } from "next/headers";
+import { Metadata } from "next";
 
 export async function generateMetadata({
+  params,
   searchParams,
 }: {
+  params: { id: string },
   searchParams: { draftKey?: string };
-}) {
-  const metadata: {
-    robots?: {
-      index: boolean;
-    };
-  } = {};
+}): Promise<Metadata> {
+  const blog = await getBlogDetail(params.id);
+  
+  // メタデータの基本構造を作成
+  const metadata: Metadata = {
+    title: blog?.title,
+    description: blog?.content || `${blog?.title}に関する記事です`,
+  };
 
+  // 下書きモードまたはdraftKeyが存在する場合、indexingを無効化
   const { isEnabled } = draftMode();
-
   if (isEnabled || searchParams.draftKey) {
     metadata.robots = {
       index: false,
+    };
+  }
+
+  // OGP情報があれば追加
+  if (blog?.eyecatch) {
+    metadata.openGraph = {
+      title: blog.title,
+      description: blog.content || `${blog.title}に関する記事です`,
+      images: [
+        {
+          url: blog.eyecatch.url,
+          width: blog.eyecatch.width,
+          height: blog.eyecatch.height,
+          alt: blog.title,
+        },
+      ],
     };
   }
 

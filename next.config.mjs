@@ -5,12 +5,10 @@ const nextConfig = {
     MICROCMS_API_KEY: process.env.MICROCMS_API_KEY,
   },
   images: {
-    domains: ["images.microcms-assets.io"], // MicroCMSで画像を使う場合、ホストを追加します
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: "res.cloudinary.com",
-        pathname: "/**",
+        protocol: 'https',
+        hostname: '**',
       },
     ],
   },
