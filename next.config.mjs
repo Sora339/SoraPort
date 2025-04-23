@@ -11,7 +11,6 @@ const nextConfig = {
         hostname: '**',
       },
     ],
-    unoptimized: true, // 外部画像の最適化を無効化
   },
 };
 export default nextConfig;
