@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { getWorkDetail, getWorkList } from "@/lib/microcms";
-import { draftMode } from "next/headers";
+import { cookies, draftMode } from "next/headers";
 import { Metadata } from "next";
 import WorkArticle from "@/app/components/work-article";
 
@@ -85,19 +85,16 @@ export async function generateStaticParams() {
 
 export default async function WorkDetailPage({
   params: { postId },
-  searchParams,
 }: {
   params: { postId: string };
-  searchParams: { draftKey?: string };
 }) {
   const { isEnabled } = draftMode();
 
-  // Draft Modeが有効な場合または直接draftKeyが指定されている場合
-  // draftKeyを含めてコンテンツを取得
-  const queries = searchParams.draftKey
-    ? { draftKey: searchParams.draftKey }
-    : {};
-  const article = await getWorkDetail(postId, queries);
+  const actualDraftKey = cookies().get("draftKey")?.value;
+
+  const article = await getWorkDetail(postId, {
+		draftKey: isEnabled && actualDraftKey ? actualDraftKey : undefined,
+	});
 
   if (!article) {
     console.error("Post not found:", postId);
@@ -106,7 +103,7 @@ export default async function WorkDetailPage({
 
   return (
     <>
-      {(isEnabled || searchParams.draftKey) && (
+      {isEnabled && (
         <div className="text-lg">
           プレビューモード中 - これは下書きのプレビューです
         </div>

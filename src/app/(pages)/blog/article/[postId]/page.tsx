@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { getBlogDetail, getBlogList } from "@/lib/microcms";
 import BlogArticle from "@/app/components/blog-article";
-import { draftMode } from "next/headers";
+import { cookies, draftMode } from "next/headers";
 import { Metadata } from "next";
 
 export async function generateMetadata({
@@ -85,19 +85,16 @@ export async function generateStaticParams() {
 
 export default async function BlogDetailPage({
   params: { postId },
-  searchParams,
 }: {
   params: { postId: string };
-  searchParams: { draftKey?: string };
 }) {
   const { isEnabled } = draftMode();
 
-  // Draft Modeが有効な場合または直接draftKeyが指定されている場合
-  // draftKeyを含めてコンテンツを取得
-  const queries = searchParams.draftKey
-    ? { draftKey: searchParams.draftKey }
-    : {};
-  const article = await getBlogDetail(postId, queries);
+  const actualDraftKey = cookies().get("draftKey")?.value;
+
+  const article = await getBlogDetail(postId, {
+    draftKey: isEnabled && actualDraftKey ? actualDraftKey : undefined,
+  });
 
   if (!article) {
     console.error("Post not found:", postId);
@@ -106,7 +103,7 @@ export default async function BlogDetailPage({
 
   return (
     <>
-      {(isEnabled || searchParams.draftKey) && (
+      {isEnabled && (
         <div className="text-lg">
           プレビューモード中 - これは下書きのプレビューです
         </div>
