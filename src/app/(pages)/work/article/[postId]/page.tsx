@@ -6,8 +6,10 @@ import WorkArticle from "@/app/components/work-article";
 
 export async function generateMetadata({
   params,
+  searchParams,
 }: {
   params: { postId: string },
+  searchParams: { draftKey?: string };
 }): Promise<Metadata> {
   // パラメータを確認
   console.log("Generating metadata for:", params);
@@ -66,6 +68,12 @@ export async function generateMetadata({
       ],
     },
   };
+
+  if (searchParams.draftKey) {
+    metadata.robots = {
+      index: false,
+    };
+  }
   
   console.log("Generated metadata:", metadata);
   return metadata;
