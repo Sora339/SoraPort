@@ -45,7 +45,7 @@ export default async function Page() {
           <div className="flex flex-col md:flex-row justify-center gap-12 md:gap-24">
             <div className="flex justify-center">
               <Image
-                src="/img/icon.png"
+                src="/img/icon.webp"
                 alt="プロフィール写真"
                 width={300}
                 height={300}
@@ -55,7 +55,7 @@ export default async function Page() {
             <div className="flex flex-col mx-auto md:mx-0 items-center md:items-start justify-center space-y-4 w-fit">
               <div className="w-fit">
                 <h3 className="mb-6 text-2xl font-bold">
-                  Sora_339 ( 西堀 宙知 )
+                  Sora_339（西堀 宙知）
                 </h3>
                 <p className="">Web developer / Movie creater</p>
               </div>

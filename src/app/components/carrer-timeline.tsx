@@ -1,10 +1,18 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Building2, Code2, GitBranch } from "lucide-react";
+import { School, Code2, GraduationCap, Building2 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 
 const careers = [
+  {
+    period: "2027 - ",
+    company: "株式会社サイバーエージェント",
+    position: "Webフロントエンドエンジニア",
+    description:
+      "2027年4月入社予定。",
+    icon: Building2,
+  },
   {
     period: "2024 - 現在",
     company: "青山学院大学情報メディアセンター",
@@ -19,7 +27,7 @@ const careers = [
     position: "社会情報学部社会情報学科",
     description:
       "情報科学の基礎から応用まで幅広い知識を学び、情報社会における課題解決能力を養う。",
-    icon: GitBranch,
+    icon: GraduationCap,
   },
   {
     period: "2020-2023",
@@ -27,7 +35,7 @@ const careers = [
     position: "",
     description:
       "Pythonを用いて、宇宙線の周期性に関するデータ分析を研究する。",
-    icon: Building2,
+    icon: School,
   },
 ];
 

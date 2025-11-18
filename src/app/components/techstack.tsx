@@ -7,15 +7,15 @@ const technologies = [
   },
   {
     category: "Backend",
-    skills: ["Node.js", "Express", "Python", "PHP", "PostgreSQL", "MySQL"],
+    skills: ["Node.js", "Hono", "FastAPI", "Ruby on Rails", "Go", "PostgreSQL", "MySQL"],
   },
   {
     category: "Design & Movies",
-    skills: ["Affinity Designer", "Adobe Premiere Pro", "Adobe After Effects", "Blender", "DaVinci Resolve"],
+    skills: ["affinity", "Adobe", "Fusion360", "Blender", "DaVinci Resolve"],
   },
   {
     category: "Tools",
-    skills: ["VS Code", "Figma", "Git",],
+    skills: ["VS Code", "Cursor", "Figma", "Git",],
   },
 ]
 
