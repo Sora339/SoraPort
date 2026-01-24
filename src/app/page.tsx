@@ -21,7 +21,7 @@ export default async function Page() {
   const workcontents = workArticleResponse;
   const blogArticleResponse = await getBlogList(articlesListQueries);
   const blogcontents = blogArticleResponse;
-  console.log(workcontents);
+  //console.log(workcontents);
   return (
     <div className="min-h-screen">
       {/* ヘッダーセクション */}

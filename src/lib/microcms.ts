@@ -1,8 +1,6 @@
 import type { BlogArticleType, WorkArticleType } from "@/types/microcms";
 import { createClient } from "microcms-js-sdk";
 import type { MicroCMSQueries } from "microcms-js-sdk";
-import { draftMode } from "next/headers";
-
 if (!process.env.MICROCMS_SERVICE_DOMAIN) {
   throw new Error("MICROCMS_SERVICE_DOMAIN is required");
 }
@@ -32,45 +30,21 @@ export const getWorkDetail = async (
   contentId: string,
   queries?: MicroCMSQueries
 ) => {
-  // Draft Modeの状態を確認
-  const draftQueries = { ...queries };
-
-  // すでにdraftKeyがクエリに存在する場合はそのまま使用
-  if (!draftQueries.draftKey) {
-    try {
-      const { isEnabled } = await draftMode();
-      // Draft Modeが有効で、かつdraftKeyがクエリにない場合は
-      // searchParamsから取得したdraftKeyを使用
-      if (isEnabled && typeof window !== "undefined") {
-        const urlParams = new URLSearchParams(window.location.search);
-        const draftKeyParam = urlParams.get("draftKey");
-        if (draftKeyParam) {
-          draftQueries.draftKey = draftKeyParam;
-        }
-      }
-    } catch (e) {
-      // サーバーサイドでwindowにアクセスするとエラーになるため
-      console.error("Error checking draft mode:", e);
-    }
-  }
-
   try {
     const detailData = await client.get<WorkArticleType>({
       endpoint: "works",
       contentId,
-      queries: draftQueries,
+      queries,
     });
 
-    console.log("Fetched detail data:", detailData); // デバッグ用
-
     if (!detailData) {
-      console.error("No data found for contentId:", contentId);
+      //console.error("No data found for contentId:", contentId);
       return null;
     }
 
     return detailData;
   } catch (error) {
-    console.error("Error fetching detail:", error);
+    //console.error("Error fetching detail:", error);
     return null;
   }
 };
@@ -90,45 +64,21 @@ export const getBlogDetail = async (
   contentId: string,
   queries?: MicroCMSQueries
 ) => {
-  // Draft Modeの状態を確認
-  const draftQueries = { ...queries };
-
-  // すでにdraftKeyがクエリに存在する場合はそのまま使用
-  if (!draftQueries.draftKey) {
-    try {
-      const { isEnabled } = await draftMode();
-      // Draft Modeが有効で、かつdraftKeyがクエリにない場合は
-      // searchParamsから取得したdraftKeyを使用
-      if (isEnabled && typeof window !== "undefined") {
-        const urlParams = new URLSearchParams(window.location.search);
-        const draftKeyParam = urlParams.get("draftKey");
-        if (draftKeyParam) {
-          draftQueries.draftKey = draftKeyParam;
-        }
-      }
-    } catch (e) {
-      // サーバーサイドでwindowにアクセスするとエラーになるため
-      console.error("Error checking draft mode:", e);
-    }
-  }
-
   try {
     const detailData = await client.get<BlogArticleType>({
       endpoint: "blogs",
       contentId,
-      queries: draftQueries,
+      queries,
     });
 
-    console.log("Fetched detail data:", detailData); // デバッグ用
-
     if (!detailData) {
-      console.error("No data found for contentId:", contentId);
+      //console.error("No data found for contentId:", contentId);
       return null;
     }
 
     return detailData;
   } catch (error) {
-    console.error("Error fetching detail:", error);
+    //console.error("Error fetching detail:", error);
     return null;
   }
 };

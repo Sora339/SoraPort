@@ -1,20 +1,18 @@
 import { notFound } from "next/navigation";
 import { getBlogDetail, getBlogList } from "@/lib/microcms";
 import BlogArticle from "@/app/components/blog-article";
-import { cookies, draftMode } from "next/headers";
 import { Metadata } from "next";
 
 export async function generateMetadata({
   params,
-  searchParams,
 }: {
-  params: { postId: string },
-  searchParams: { draftKey?: string };
+  params: Promise<{ postId: string }>;
 }): Promise<Metadata> {
+  const { postId } = await params;
   // パラメータを確認
-  console.log("Generating metadata for:", params);
+  //console.log("Generating metadata for:", params);
   
-  const blog = await getBlogDetail(params.postId);
+  const blog = await getBlogDetail(postId);
   
   if (!blog) {
     return {
@@ -31,7 +29,7 @@ export async function generateMetadata({
       title: `${blog.title} | SoraPort`,
       description: `${blog.title}に関する記事です`,
       type: "article",
-      url: `https://nextsorablog.com/blog/${params.postId}`,
+      url: `https://nextsorablog.com/blog/${postId}`,
       siteName: "SoraPort",  // ルートから継承したい値を明示的に設定
       images: blog.eyecatch ? [
         {
@@ -69,13 +67,6 @@ export async function generateMetadata({
     },
   };
 
-  if (searchParams.draftKey) {
-    metadata.robots = {
-      index: false,
-    };
-  }
-  
-  console.log("Generated metadata:", metadata);
   return metadata;
 }
 
@@ -92,30 +83,20 @@ export async function generateStaticParams() {
 }
 
 export default async function BlogDetailPage({
-  params: { postId },
+  params,
 }: {
-  params: { postId: string };
+  params: Promise<{ postId: string }>;
 }) {
-  const { isEnabled } = await draftMode();
-
-  const actualDraftKey = (await cookies()).get("draftKey")?.value;
-
-  const article = await getBlogDetail(postId, {
-    draftKey: isEnabled && actualDraftKey ? actualDraftKey : undefined,
-  });
+  const { postId } = await params;
+  const article = await getBlogDetail(postId);
 
   if (!article) {
-    console.error("Post not found:", postId);
+    //console.error("Post not found:", postId);
     notFound();
   }
 
   return (
     <>
-      {isEnabled && (
-        <div className="text-lg">
-          プレビューモード中 - これは下書きのプレビューです
-        </div>
-      )}
       <BlogArticle content={article} />
     </>
   );

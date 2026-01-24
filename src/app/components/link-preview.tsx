@@ -70,14 +70,14 @@ export function LinkPreview({ url, children }: LinkPreviewProps) {
             return;
           }
         } catch (err) {
-          console.error(`${proxy}でのOGP取得エラー:`, err);
+          //console.error(`${proxy}でのOGP取得エラー:`, err);
           // エラーが発生しても次のプロキシを試す
           continue;
         }
       }
       
       // すべてのプロキシで失敗した場合
-      console.error('すべてのプロキシでOGP取得に失敗');
+      //console.error('すべてのプロキシでOGP取得に失敗');
       setError(true);
       setLoading(false);
     };

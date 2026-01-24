@@ -1,20 +1,16 @@
 import { notFound } from "next/navigation";
 import { getWorkDetail, getWorkList } from "@/lib/microcms";
-import { cookies, draftMode } from "next/headers";
 import { Metadata } from "next";
 import WorkArticle from "@/app/components/work-article";
 
 export async function generateMetadata({
   params,
-  searchParams,
 }: {
-  params: { postId: string },
-  searchParams: { draftKey?: string };
+  params: Promise<{ postId: string }>;
 }): Promise<Metadata> {
   // パラメータを確認
-  console.log("Generating metadata for:", params);
-  
-  const work = await getWorkDetail(params.postId);
+  const { postId } = await params;
+  const work = await getWorkDetail(postId);
   
   if (!work) {
     return {
@@ -31,7 +27,7 @@ export async function generateMetadata({
       title: `${work.title} | SoraPort`,
       description: `${work.title}に関する記事です`,
       type: "article",
-      url: `https://nextsorablog.com/blog/${params.postId}`,
+      url: `https://nextsorablog.com/blog/${postId}`,
       siteName: "SoraPort",  // ルートから継承したい値を明示的に設定
       images: work.eyecatch ? [
         {
@@ -69,13 +65,6 @@ export async function generateMetadata({
     },
   };
 
-  if (searchParams.draftKey) {
-    metadata.robots = {
-      index: false,
-    };
-  }
-  
-  console.log("Generated metadata:", metadata);
   return metadata;
 }
 
@@ -92,30 +81,20 @@ export async function generateStaticParams() {
 }
 
 export default async function WorkDetailPage({
-  params: { postId },
+  params,
 }: {
-  params: { postId: string };
+  params: Promise<{ postId: string }>;
 }) {
-  const { isEnabled } = await draftMode();
-
-  const actualDraftKey = (await cookies()).get("draftKey")?.value;
-
-  const article = await getWorkDetail(postId, {
-		draftKey: isEnabled && actualDraftKey ? actualDraftKey : undefined,
-	});
+  const { postId } = await params;
+  const article = await getWorkDetail(postId);
 
   if (!article) {
-    console.error("Post not found:", postId);
+    //console.error("Post not found:", postId);
     notFound();
   }
 
   return (
     <>
-      {isEnabled && (
-        <div className="text-lg">
-          プレビューモード中 - これは下書きのプレビューです
-        </div>
-      )}
       <WorkArticle content={article} />
     </>
   );

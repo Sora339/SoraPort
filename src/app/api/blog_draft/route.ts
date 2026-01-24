@@ -35,5 +35,5 @@ export async function GET(request: Request) {
 	});
 
 	// draftKeyをURLパラメータとして保持せずリダイレクト
-	redirect(`/blog/article/${contentId}`);
+	redirect(`/blog/article/draft/${contentId}`);
 }

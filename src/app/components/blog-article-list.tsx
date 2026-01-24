@@ -16,7 +16,6 @@ export default function BlogArticlelist({
   currentPage,
   totalCount,
 }: ArticlelistProps) {
-  console.log(contents);
   return (
     <div className="container mx-auto px-4 my-8 lg:px-12 lg:my-16">
       {/* ナビゲーション */}

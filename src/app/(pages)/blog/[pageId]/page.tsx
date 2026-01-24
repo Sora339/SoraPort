@@ -12,24 +12,21 @@ export async function generateStaticParams() {
     Array.from({ length: end - start + 1 }, (_, i) => start + i);
 
   const paths = range(1, Math.ceil(totalCount / LIMIT)).map((page) => ({
-    current: page.toString(),
+    pageId: page.toString(),
   }));
 
   return [...paths];
 }
 
-export default async function Blog({ params }: { params: { pageId: string } }) {
-  const currentPage = Number.parseInt(params.pageId, 10);
+export default async function Blog({
+  params,
+}: {
+  params: Promise<{ pageId: string }>;
+}) {
+  const { pageId } = await params;
+  const currentPage = Number.parseInt(pageId, 10);
 
-  const initialQueries = { limit: LIMIT, fields: "id" };
-  const articlesListResponse = await getBlogList(initialQueries).catch(() =>
-    notFound()
-  );
-  const { totalCount } = articlesListResponse;
-
-  const maxPage = Math.ceil(totalCount / LIMIT);
-
-  if (Number.isNaN(currentPage) || currentPage < 1 || currentPage > maxPage) {
+  if (Number.isNaN(currentPage) || currentPage < 1) {
     return notFound();
   }
 
@@ -41,7 +38,13 @@ export default async function Blog({ params }: { params: { pageId: string } }) {
   const blogPageResponse = await getBlogList(articlesListQueries).catch(() =>
     notFound()
   );
-  const { contents } = blogPageResponse;
+  const { contents, totalCount } = blogPageResponse;
+
+  const maxPage = Math.max(1, Math.ceil(totalCount / LIMIT));
+
+  if (currentPage > maxPage) {
+    return notFound();
+  }
 
   if (!contents) {
     return <h1>No contents</h1>;
