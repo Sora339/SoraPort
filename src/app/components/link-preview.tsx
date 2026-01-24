@@ -1,5 +1,6 @@
 "use client";
-import { useState, useEffect, ReactNode } from "react";
+import { ReactNode } from "react";
+import useSWR from "swr";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import Image from "next/image";
@@ -21,72 +22,78 @@ const CORS_PROXIES = [
   "https://api.codetabs.com/v1/proxy?quest="
 ];
 
+const fetchOgpData = async (url: string): Promise<OgpData | null> => {
+  for (const proxy of CORS_PROXIES) {
+    try {
+      const proxyUrl = `${proxy}${encodeURIComponent(url)}`;
+      const response = await fetch(proxyUrl);
+
+      let html = "";
+      if (proxy.includes("allorigins")) {
+        const data = await response.json();
+        html = data.contents;
+      } else {
+        html = await response.text();
+      }
+
+      if (!html) {
+        continue;
+      }
+
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, "text/html");
+
+      const ogp: OgpData = {
+        title:
+          doc
+            .querySelector('meta[property="og:title"]')
+            ?.getAttribute("content") ||
+          doc.querySelector("title")?.textContent ||
+          url,
+        description:
+          doc
+            .querySelector('meta[property="og:description"]')
+            ?.getAttribute("content") ||
+          doc
+            .querySelector('meta[name="description"]')
+            ?.getAttribute("content") ||
+          "",
+        image:
+          doc
+            .querySelector('meta[property="og:image"]')
+            ?.getAttribute("content") || null,
+        siteName:
+          doc
+            .querySelector('meta[property="og:site_name"]')
+            ?.getAttribute("content") || null,
+        url,
+      };
+
+      if (ogp.title && (ogp.title !== url || ogp.image)) {
+        return ogp;
+      }
+    } catch {
+      continue;
+    }
+  }
+
+  return null;
+};
+
+const ogpFetcher = async (url: string) => {
+  const ogpData = await fetchOgpData(url);
+  if (!ogpData) {
+    throw new Error("Failed to fetch OGP");
+  }
+  return ogpData;
+};
 
 export function LinkPreview({ url, children }: LinkPreviewProps) {
-  const [ogpData, setOgpData] = useState<OgpData | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<boolean>(false);
+  const { data, isLoading } = useSWR(url, ogpFetcher, {
+    revalidateOnFocus: false,
+  });
 
-  useEffect(() => {
-    const fetchOgpDataClient = async (): Promise<void> => {
-      for (const proxy of CORS_PROXIES) {
-        try {
-          // 各プロキシを試す
-          const proxyUrl = `${proxy}${encodeURIComponent(url)}`;
-          const response = await fetch(proxyUrl);
-          
-          // レスポンスの形式に応じて処理を変える
-          let html = '';
-          if (proxy.includes('allorigins')) {
-            const data = await response.json();
-            html = data.contents;
-          } else {
-            html = await response.text();
-          }
-
-          // HTMLがない場合は次のプロキシを試す
-          if (!html) {
-            continue;
-          }
-          
-          // DOMParserはブラウザ環境でのみ使用可能
-          const parser = new DOMParser();
-          const doc = parser.parseFromString(html, 'text/html');
-          
-          const ogp: OgpData = {
-            title: doc.querySelector('meta[property="og:title"]')?.getAttribute('content') || 
-                   doc.querySelector('title')?.textContent || url,
-            description: doc.querySelector('meta[property="og:description"]')?.getAttribute('content') || 
-                       doc.querySelector('meta[name="description"]')?.getAttribute('content') || '',
-            image: doc.querySelector('meta[property="og:image"]')?.getAttribute('content') || null,
-            siteName: doc.querySelector('meta[property="og:site_name"]')?.getAttribute('content') || null,
-            url: url
-          };
-          
-          // 有効なOGPデータが取得できたら設定して処理終了
-          if (ogp.title && (ogp.title !== url || ogp.image)) {
-            setOgpData(ogp);
-            setLoading(false);
-            return;
-          }
-        } catch (err) {
-          //console.error(`${proxy}でのOGP取得エラー:`, err);
-          // エラーが発生しても次のプロキシを試す
-          continue;
-        }
-      }
-      
-      // すべてのプロキシで失敗した場合
-      //console.error('すべてのプロキシでOGP取得に失敗');
-      setError(true);
-      setLoading(false);
-    };
-
-    fetchOgpDataClient();
-  }, [url]);
-
-
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="my-4">
         <div className="block no-underline">
@@ -109,7 +116,7 @@ export function LinkPreview({ url, children }: LinkPreviewProps) {
     );
   }
 
-  if (error || !ogpData) {
+  if (!data) {
     return (
       <a
         href={url}
@@ -132,11 +139,11 @@ export function LinkPreview({ url, children }: LinkPreviewProps) {
       >
         <Card className="overflow-hidden hover:shadow-md transition-shadow">
           <div className="flex sm:flex-row items-center">
-            {ogpData.image && (
+            {data.image && (
               <div className="w-[30%] sm:w-[50%] md:w-[60%] lg:w-[45%] xl:w-[40%] 2xl:w-[35%] h-fit relative">
                 <Image
-                  src={ogpData.image}
-                  alt={ogpData.title || "リンクプレビュー"}
+                  src={data.image}
+                  alt={data.title || "リンクプレビュー"}
                   width={500}
                   height={330}
                   className="object-cover aspect-square sm:aspect-video my-0"
@@ -150,7 +157,7 @@ export function LinkPreview({ url, children }: LinkPreviewProps) {
                   {new URL(url).host}
                 </div>
                 <h4 className="font-medium text-base h-[3rem] line-clamp-2 mt-1 mb-4">
-                  {ogpData.title || url}
+                  {data.title || url}
                 </h4>
               </div>
             </CardContent>
