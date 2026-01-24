@@ -38,7 +38,7 @@ export const getWorkDetail = async (
   // すでにdraftKeyがクエリに存在する場合はそのまま使用
   if (!draftQueries.draftKey) {
     try {
-      const { isEnabled } = draftMode();
+      const { isEnabled } = await draftMode();
       // Draft Modeが有効で、かつdraftKeyがクエリにない場合は
       // searchParamsから取得したdraftKeyを使用
       if (isEnabled && typeof window !== "undefined") {
@@ -96,7 +96,7 @@ export const getBlogDetail = async (
   // すでにdraftKeyがクエリに存在する場合はそのまま使用
   if (!draftQueries.draftKey) {
     try {
-      const { isEnabled } = draftMode();
+      const { isEnabled } = await draftMode();
       // Draft Modeが有効で、かつdraftKeyがクエリにない場合は
       // searchParamsから取得したdraftKeyを使用
       if (isEnabled && typeof window !== "undefined") {

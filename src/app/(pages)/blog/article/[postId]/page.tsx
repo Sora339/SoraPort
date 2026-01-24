@@ -96,9 +96,9 @@ export default async function BlogDetailPage({
 }: {
   params: { postId: string };
 }) {
-  const { isEnabled } = draftMode();
+  const { isEnabled } = await draftMode();
 
-  const actualDraftKey = cookies().get("draftKey")?.value;
+  const actualDraftKey = (await cookies()).get("draftKey")?.value;
 
   const article = await getBlogDetail(postId, {
     draftKey: isEnabled && actualDraftKey ? actualDraftKey : undefined,

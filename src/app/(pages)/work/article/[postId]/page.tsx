@@ -96,9 +96,9 @@ export default async function WorkDetailPage({
 }: {
   params: { postId: string };
 }) {
-  const { isEnabled } = draftMode();
+  const { isEnabled } = await draftMode();
 
-  const actualDraftKey = cookies().get("draftKey")?.value;
+  const actualDraftKey = (await cookies()).get("draftKey")?.value;
 
   const article = await getWorkDetail(postId, {
 		draftKey: isEnabled && actualDraftKey ? actualDraftKey : undefined,

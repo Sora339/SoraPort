@@ -18,9 +18,9 @@ export default function WorkArticle({
   content,
 }: {
   content: WorkArticleType;
-}): JSX.Element {
+}) {
 	const options: HTMLReactParserOptions = {
-		replace: (domNode): JSX.Element | string | undefined => {
+		replace: (domNode) => {
 			// コードブロックの処理
 			if (
 				domNode instanceof Element &&

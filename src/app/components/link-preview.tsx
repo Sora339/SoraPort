@@ -22,7 +22,7 @@ const CORS_PROXIES = [
 ];
 
 
-export function LinkPreview({ url, children }: LinkPreviewProps): JSX.Element {
+export function LinkPreview({ url, children }: LinkPreviewProps) {
   const [ogpData, setOgpData] = useState<OgpData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);

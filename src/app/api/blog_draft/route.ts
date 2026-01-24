@@ -27,7 +27,7 @@ export async function GET(request: Request) {
 	draft.enable();
 
 	// ★追加: 実際のdraftKeyをCookieに保存
-	cookies().set("draftKey", draftKey as string, {
+	(await cookies()).set("draftKey", draftKey as string, {
 		path: "/",
 		httpOnly: true, // JavaScriptからアクセス不可にする
 		secure: process.env.NODE_ENV === "production", // HTTPSでのみ送信
