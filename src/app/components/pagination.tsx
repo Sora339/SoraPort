@@ -23,7 +23,7 @@ export const Pagination = ({
       <li>
         <Link
           href={createHref(1)}
-          className={`relative rounded-md bg-[#F6F3EA] p-2 px-5 text-sm shadow hover:opacity-70 md:p-2 md:px-5 md:text-lg ${isDisabled(
+          className={`relative rounded-md bg-card text-foreground border border-border p-2 px-5 text-sm shadow hover:opacity-70 md:p-2 md:px-5 md:text-lg ${isDisabled(
             currentPage === 1
           )}`}
         >
@@ -33,7 +33,7 @@ export const Pagination = ({
       <li>
         <Link
           href={createHref(currentPage - 1)}
-          className={`relative rounded-md bg-[#F6F3EA] p-2 px-5 text-sm shadow hover:opacity-70 md:p-2 md:px-5 md:text-lg ${isDisabled(
+          className={`relative rounded-md bg-card text-foreground border border-border p-2 px-5 text-sm shadow hover:opacity-70 md:p-2 md:px-5 md:text-lg ${isDisabled(
             currentPage === 1
           )}`}
         >
@@ -41,14 +41,14 @@ export const Pagination = ({
         </Link>
       </li>
       <li>
-        <span className="rounded-md bg-[#F6F3EA] p-2 px-2 text-base shadow md:p-2 md:px-3 md:text-lg">
+        <span className="rounded-md bg-card text-foreground border border-border p-2 px-2 text-base shadow md:p-2 md:px-3 md:text-lg">
           {currentPage} / {totalPages}
         </span>
       </li>
       <li>
         <Link
           href={createHref(currentPage + 1)}
-          className={`relative rounded-md bg-[#F6F3EA] p-2 px-5 text-sm shadow hover:opacity-70 md:p-2 md:px-5 md:text-lg ${isDisabled(
+          className={`relative rounded-md bg-card text-foreground border border-border p-2 px-5 text-sm shadow hover:opacity-70 md:p-2 md:px-5 md:text-lg ${isDisabled(
             currentPage === totalPages
           )}`}
         >
@@ -58,7 +58,7 @@ export const Pagination = ({
       <li>
         <Link
           href={createHref(totalPages)}
-          className={`relative rounded-md bg-[#F6F3EA] p-2 px-5 text-sm shadow hover:opacity-70 md:p-2 md:px-5 md:text-lg ${isDisabled(
+          className={`relative rounded-md bg-card text-foreground border border-border p-2 px-5 text-sm shadow hover:opacity-70 md:p-2 md:px-5 md:text-lg ${isDisabled(
             currentPage === totalPages
           )}`}
         >

@@ -43,7 +43,7 @@ export default function CareerTimeline() {
   return (
       <div className="relative mx-auto max-w-4xl">
         {/* タイムラインの中心線 */}
-        <div className="absolute left-[50%] top-0 h-full w-0.5 -translate-x-1/2 bg-border md:block z-0" />
+        <div className="bg-primary absolute left-[50%] top-0 h-full w-0.5 -translate-x-1/2 bg-border md:block z-0" />
 
         {careers.map((career, index) => (
           <motion.div

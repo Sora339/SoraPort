@@ -19,7 +19,7 @@ export default function WorkArticlelist({
   return (
     <div className="container mx-auto px-4 my-8 lg:px-12 lg:my-16">
       {/* ナビゲーション */}
-      <div className="mb-8 text-white">
+      <div className="mb-8 text-foreground">
         <Button variant="ghost" asChild>
           <Link href="/">
             <ArrowLeft className="mr-2 h-4 w-4" />
@@ -27,7 +27,7 @@ export default function WorkArticlelist({
           </Link>
         </Button>
       </div>
-      <h1 className="text-white text-3xl font-bold sm:text-4xl md:text-5xl mb-12 text-center">
+      <h1 className="text-foreground text-3xl font-bold sm:text-4xl md:text-5xl mb-12 text-center">
         Works
       </h1>
 

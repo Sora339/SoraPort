@@ -1,4 +1,4 @@
-import Image from "next/image";
+import ProfileImage from "@/app/components/profile-image";
 import { ArrowRight } from "lucide-react";
 import TechStack from "@/app/components/techstack";
 import Link from "next/link";
@@ -7,6 +7,8 @@ import { getBlogList, getWorkList } from "@/lib/microcms";
 import WorkCard from "@/app/components/work-card";
 import BlogCard from "@/app/components/blog-card";
 import { Metadata } from "next";
+import ThemeSwitch from "@/app/components/theme-switch";
+import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "SoraPort",
@@ -27,6 +29,9 @@ export default async function Page() {
       {/* ヘッダーセクション */}
       <section className="relative flex h-[50vh] flex-col items-center justify-center space-y-8 px-4 py-24 text-center">
         <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,#4f4f4f2e_2px,transparent_2px),linear-gradient(to_bottom,#4f4f4f2e_2px,transparent_2px)] bg-[size:24px_36px]" />
+        <div className="absolute right-6 top-6 z-10">
+          <ThemeSwitch />
+        </div>
         <div className="space-y-4">
           <h1 className="text-5xl font-bold tracking-tighter sm:text-6xl md:text-7xl">
             SoraPort
@@ -44,13 +49,7 @@ export default async function Page() {
           </h2>
           <div className="flex flex-col md:flex-row justify-center gap-12 md:gap-24">
             <div className="flex justify-center">
-              <Image
-                src="/img/icon.webp"
-                alt="プロフィール写真"
-                width={300}
-                height={300}
-                className="rounded-full"
-              />
+              <ProfileImage />
             </div>
             <div className="flex flex-col mx-auto md:mx-0 items-center md:items-start justify-center space-y-4 w-fit">
               <div className="w-fit">
@@ -65,8 +64,8 @@ export default async function Page() {
                 Let&apos;s be friends!
               </p>
               <div className="flex gap-4">
-                <ul className="grid grid-cols-2 gap-4 text-black font-semibold">
-                  <li className="bg-white rounded-lg hover:shadow-[0_0_10px_4px_rgba(0,0,0,0.8)] transition duration-300">
+                <ul className="grid grid-cols-2 gap-4 text-foreground font-semibold">
+                  <li className="bg-white text-black rounded-lg hover:shadow-[0_0_10px_4px_rgba(0,0,0,0.8)] transition duration-300">
                     <Link
                       target="_blank"
                       href={"https://github.com/Sora339"}
@@ -85,7 +84,7 @@ export default async function Page() {
                       <p className="">Sora339</p>
                     </Link>
                   </li>
-                  <li className="bg-stone-900 text-white rounded-lg hover:shadow-[0_0_10px_4px_rgba(255,255,255,0.8)] transition duration-300">
+                  <li className="bg-white text-black rounded-lg hover:shadow-[0_0_10px_4px_rgba(255,255,255,0.8)] transition duration-300">
                     <Link
                       target="_blank"
                       href={"https://x.com/339_Sora"}
@@ -94,7 +93,7 @@ export default async function Page() {
                       <div className="w-[30px] flex justify-center">
                         <Image
                           src={
-                            "https://res.cloudinary.com/divcohz2x/image/upload/v1727722443/logo-white_hjqcnz.png"
+                            "https://res.cloudinary.com/divcohz2x/image/upload/v1769327224/logo-black_tqh46l.png"
                           }
                           alt="Next"
                           width={24}
@@ -104,7 +103,7 @@ export default async function Page() {
                       <p className="">339_Sora</p>
                     </Link>
                   </li>
-                  <li className="bg-stone-900 text-white rounded-lg hover:shadow-[0_0_10px_4px_rgba(62,168,255,0.8)] transition duration-300">
+                  <li className="bg-white text-black rounded-lg hover:shadow-[0_0_10px_4px_rgba(62,168,255,0.8)] transition duration-300">
                     <Link
                       target="_blank"
                       href={"https://zenn.dev/sors339"}
@@ -123,7 +122,7 @@ export default async function Page() {
                       <p className="">339_Sora</p>
                     </Link>
                   </li>
-                  <li className="bg-white rounded-lg hover:shadow-[0_0_10px_4px_rgba(88,101,242,0.8)] transition duration-300">
+                  <li className="bg-white text-black rounded-lg hover:shadow-[0_0_10px_4px_rgba(88,101,242,0.8)] transition duration-300">
                     <div className="flex items-center h-full p-2 px-3 gap-3">
                       <div className="w-[30px] flex justify-center">
                         <Image
@@ -164,7 +163,7 @@ export default async function Page() {
             ))}
           </div>
           <div className="flex justify-end mt-6">
-            <Link href={"/work/1"} className="p-0 text-white flex items-center">
+            <Link href={"/work/1"} className="p-0 text-foreground flex items-center">
               <span>すべての作品を見る</span>
               <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
@@ -207,7 +206,7 @@ export default async function Page() {
             ))}
           </div>
           <div className="flex justify-end mt-6">
-            <Link href={"/blog/1"} className="p-0 text-white flex items-center">
+            <Link href={"/blog/1"} className="p-0 text-foreground flex items-center">
               <span>すべての記事を見る</span>
               <ArrowRight className="ml-2 h-4 w-4" />
             </Link>

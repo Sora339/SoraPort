@@ -51,7 +51,7 @@ export default async function Blog({
   }
 
   return (
-    <div className="font-bold text-[20px] text-black leading-10">
+    <div className="font-bold text-[20px] text-foreground leading-10">
       <Articlelist
         contents={contents}
         currentPage={currentPage}

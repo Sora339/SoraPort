@@ -4,6 +4,7 @@ import "./globals.css";
 import { Poppins } from "next/font/google";
 import { Noto_Sans_JP } from "next/font/google";
 import Footer from "./components/footer";
+import ThemeProvider from "./components/theme-provider";
 
 const Poppins_style = Poppins({
   weight: "400",
@@ -55,14 +56,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ja" className="overscroll-none">
+    <html lang="ja" className="overscroll-none" suppressHydrationWarning>
       <body
-        className={`${Poppins_style.variable} ${Noto_style.variable} text-white bg-[url('/img/layered-peaks-haikei.svg')] bg-cover min-h-screen bg-fixed flex flex-col`}
+        className={`${Poppins_style.variable} ${Noto_style.variable} bg-[url('/img/layered-peaks-haikei.svg')] dark:bg-[url('/img/layered-peaks-haikei-dark.svg')] bg-cover min-h-screen bg-fixed flex flex-col`}
       >
-        <div className="flex-grow">
-        {children}
-        </div>
-        <Footer/>
+        <ThemeProvider>
+          <div className="flex-grow">{children}</div>
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   );

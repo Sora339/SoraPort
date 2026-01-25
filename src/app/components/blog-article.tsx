@@ -134,7 +134,7 @@ export default function BlogArticle({
         </Button>
       </div>
 
-      <div className="bg-white min-h-[90vh] text-black rounded-xl p-6 md:p-16 py-8 md:py-12">
+      <div className="bg-card min-h-[90vh] text-foreground rounded-xl p-6 md:p-16 py-8 md:py-12">
         {/* ヘッダー */}
         <div className="mb-12">
           <h1 className="mb-4 text-2xl md:text-4xl font-bold">
@@ -151,7 +151,7 @@ export default function BlogArticle({
         </div>
 
         {/* 本文 */}
-        <article className="prose mx-auto">
+        <article className="prose dark:prose-invert mx-auto">
           {parse(content.content, options)}
         </article>
       </div>

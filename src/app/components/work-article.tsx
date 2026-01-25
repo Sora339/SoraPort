@@ -135,7 +135,7 @@ export default function WorkArticle({
           </Link>
         </Button>
       </div>
-      <div className="bg-white min-h-[80vh] text-black rounded-xl p-6 md:p-16 py-8 md:py-12">
+      <div className="bg-card min-h-[80vh] text-foreground rounded-xl p-6 md:p-16 py-8 md:py-12">
         {/* ヘッダー情報 */}
         <div className="mb-12">
           <h1 className="mb-4 text-3xl md:text-4xl font-bold">
@@ -214,7 +214,7 @@ export default function WorkArticle({
         </Card>
 
         {/* 本文 */}
-        <article className="prose mx-auto">
+        <article className="prose dark:prose-invert mx-auto">
           {parse(content.content, options)}
         </article>
       </div>
