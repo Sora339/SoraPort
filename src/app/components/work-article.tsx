@@ -129,7 +129,7 @@ export default function WorkArticle({
       {/* ナビゲーション */}
       <div className="mb-4 lg:mb-8">
         <Button variant="ghost" asChild>
-          <Link href="/#works">
+          <Link href="/work/1">
             <ArrowLeft className="mr-2 h-4 w-4" />
             作品一覧に戻る
           </Link>
@@ -222,7 +222,7 @@ export default function WorkArticle({
       {/* ナビゲーション */}
       <div className="mt-4 lg:mt-8 text-right">
         <Button variant="ghost" asChild>
-          <Link href="/#works">
+          <Link href="/work/1">
             <ArrowLeft className="mr-2 h-4 w-4" />
             作品一覧に戻る
           </Link>

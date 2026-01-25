@@ -17,7 +17,7 @@ export default async function Page() {
   const articlesListQueries = {
     limit: 3,
   };
-  const workArticleResponse = await getWorkList();
+  const workArticleResponse = await getWorkList(articlesListQueries);
   const workcontents = workArticleResponse;
   const blogArticleResponse = await getBlogList(articlesListQueries);
   const blogcontents = blogArticleResponse;
@@ -162,6 +162,12 @@ export default async function Page() {
                 key={work.id}
               />
             ))}
+          </div>
+          <div className="flex justify-end mt-6">
+            <Link href={"/work/1"} className="p-0 text-white flex items-center">
+              <span>すべての作品を見る</span>
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
           </div>
         </section>
 

@@ -5,13 +5,15 @@ import { ChevronFirst, ChevronLast, ChevronLeft, ChevronRight } from "lucide-rea
 export const Pagination = ({
   totalCount,
   currentPage = 1,
+  basePath = "blog",
 }: {
   totalCount: number;
   currentPage: number;
+  basePath?: string;
 }) => {
   const totalPages = Math.ceil(totalCount / LIMIT);
 
-  const createHref = (page: number) => `blog/${page}`;
+  const createHref = (page: number) => `/${basePath}/${page}`;
 
   const isDisabled = (condition: boolean) =>
     condition ? "opacity-50 pointer-events-none" : "";
