@@ -32,7 +32,7 @@ export async function generateMetadata({
       title: `${work.title} | SoraPort`,
       description: `${work.title}に関する記事です`,
       type: "article",
-      url: `https://nextsorablog.com/blog/${postId}`,
+      url: `https://nextsoraport.digital/blog/${postId}`,
       siteName: "SoraPort",
       images: work.eyecatch
         ? [
@@ -45,7 +45,7 @@ export async function generateMetadata({
           ]
         : [
             {
-              url: "https://nextsorablog.com/img/ogp.png",
+              url: "https://nextsoraport.digital/img/ogp.png",
               width: 1200,
               height: 630,
               alt: work.title,
@@ -66,7 +66,7 @@ export async function generateMetadata({
           ]
         : [
             {
-              url: "https://nextsorablog.com/img/ogp.png",
+              url: "https://nextsoraport.digital/img/ogp.png",
               alt: work.title,
             },
           ],

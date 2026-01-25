@@ -13,7 +13,7 @@ export async function GET(request: NextRequest): Promise<NextResponse<OgpRespons
     const response = await fetch(url, {
       headers: {
         'User-Agent': 'Mozilla/5.0 (compatible; nextsorablog/1.0)',
-        'Referer': 'https://nextsorablog.com'
+        'Referer': 'https://nextsoraport.digital'
       }
     });
     

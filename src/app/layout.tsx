@@ -19,6 +19,7 @@ const Noto_style = Noto_Sans_JP({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://nextsoraport.digital"),
   title: "SoraPort",
   description: "Sora_339のポートフォリオサイトです。",
   openGraph: {
@@ -27,9 +28,9 @@ export const metadata: Metadata = {
     description:
       "Sora_339のポートフォリオサイトです。",
     siteName: "SoraPort",
-    url: "https://nextsorablog.com/",
+    url: "https://nextsoraport.digital/",
     images: {
-      url: "https://nextsorablog.com/img/ogp.png",
+      url: "https://nextsoraport.digital/img/ogp.png",
       type: "image/png",
       width: 1200,
       height: 630,
@@ -39,9 +40,9 @@ export const metadata: Metadata = {
     title: "SoraPort",
     description:
       "Sora_339のポートフォリオサイトです。",
-    site: "SoraPort",
+    site: "@SoraPort",
     images: {
-      url: "https://nextsorablog.com/img/ogp.png",
+      url: "https://nextsoraport.digital/img/ogp.png",
       type: "image/png",
       width: 1200,
       height: 630,
