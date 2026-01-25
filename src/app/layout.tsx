@@ -55,7 +55,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ja">
+    <html lang="ja" className="overscroll-none">
       <body
         className={`${Poppins_style.variable} ${Noto_style.variable} text-white bg-[url('/img/layered-peaks-haikei.svg')] bg-cover min-h-screen bg-fixed flex flex-col`}
       >
