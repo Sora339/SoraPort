@@ -3,6 +3,8 @@ import WorkArticlelist from "@/app/components/work-article-list";
 import { LIMIT } from "@/lib/constants";
 import { getWorkList } from "@/lib/microcms";
 
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
   const queries = { limit: LIMIT, fields: "id" };
   const articlesListResponse = await getWorkList(queries);

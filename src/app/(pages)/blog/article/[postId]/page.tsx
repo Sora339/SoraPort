@@ -1,7 +1,9 @@
 import { notFound } from "next/navigation";
-import { getBlogDetail, getBlogList } from "@/lib/microcms";
+import { getAllBlogIds, getBlogDetail } from "@/lib/microcms";
 import BlogArticle from "@/app/components/blog-article";
 import { Metadata } from "next";
+
+export const dynamicParams = false;
 
 export async function generateMetadata({
   params,
@@ -71,15 +73,8 @@ export async function generateMetadata({
 }
 
 export async function generateStaticParams() {
-  const { contents } = await getBlogList();
-
-  const paths = contents
-    .filter((post) => post.id)
-    .map((post) => ({
-      postId: post.id.toString(),
-    }));
-
-  return paths;
+  const ids = await getAllBlogIds();
+  return ids.map((postId) => ({ postId }));
 }
 
 export default async function BlogDetailPage({

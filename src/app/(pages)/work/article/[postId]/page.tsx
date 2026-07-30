@@ -1,7 +1,9 @@
 import { notFound } from "next/navigation";
-import { getWorkDetail, getWorkList } from "@/lib/microcms";
+import { getAllWorkIds, getWorkDetail } from "@/lib/microcms";
 import { Metadata } from "next";
 import WorkArticle from "@/app/components/work-article";
+
+export const dynamicParams = false;
 
 export async function generateMetadata({
   params,
@@ -69,15 +71,8 @@ export async function generateMetadata({
 }
 
 export async function generateStaticParams() {
-  const { contents } = await getWorkList();
-
-  const paths = contents
-    .filter((post) => post.id)
-    .map((post) => ({
-      postId: post.id.toString(),
-    }));
-
-  return paths;
+  const ids = await getAllWorkIds();
+  return ids.map((postId) => ({ postId }));
 }
 
 export default async function WorkDetailPage({

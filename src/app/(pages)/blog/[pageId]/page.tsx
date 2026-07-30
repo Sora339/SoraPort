@@ -3,6 +3,8 @@ import Articlelist from "@/app/components/blog-article-list";
 import { LIMIT } from "@/lib/constants";
 import { getBlogList } from "@/lib/microcms";
 
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
   const queries = { limit: LIMIT, fields: "id" };
   const articlesListResponse = await getBlogList(queries);

@@ -1,96 +1,35 @@
 "use client";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import useSWR from "swr";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import Image from "next/image";
-
-interface OgpData {
-  title: string;
-  description?: string | null; // nullも許容するように修正
-  image?: string | null; // nullも許容するように修正
-  siteName?: string | null; // nullも許容するように修正
-  url: string;
-}
+import type { OgpData, OgpResponse } from "@/types/ogp";
 
 interface LinkPreviewProps {
   url: string;
   children: ReactNode;
 }
 
-const CORS_PROXIES = [
-  "https://api.codetabs.com/v1/proxy?quest="
-];
-
-const fetchOgpData = async (url: string): Promise<OgpData | null> => {
-  for (const proxy of CORS_PROXIES) {
-    try {
-      const proxyUrl = `${proxy}${encodeURIComponent(url)}`;
-      const response = await fetch(proxyUrl);
-
-      let html = "";
-      if (proxy.includes("allorigins")) {
-        const data = await response.json();
-        html = data.contents;
-      } else {
-        html = await response.text();
-      }
-
-      if (!html) {
-        continue;
-      }
-
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(html, "text/html");
-
-      const ogp: OgpData = {
-        title:
-          doc
-            .querySelector('meta[property="og:title"]')
-            ?.getAttribute("content") ||
-          doc.querySelector("title")?.textContent ||
-          url,
-        description:
-          doc
-            .querySelector('meta[property="og:description"]')
-            ?.getAttribute("content") ||
-          doc
-            .querySelector('meta[name="description"]')
-            ?.getAttribute("content") ||
-          "",
-        image:
-          doc
-            .querySelector('meta[property="og:image"]')
-            ?.getAttribute("content") || null,
-        siteName:
-          doc
-            .querySelector('meta[property="og:site_name"]')
-            ?.getAttribute("content") || null,
-        url,
-      };
-
-      if (ogp.title && (ogp.title !== url || ogp.image)) {
-        return ogp;
-      }
-    } catch {
-      continue;
-    }
+const ogpFetcher = async (url: string): Promise<OgpData> => {
+  const response = await fetch(`/api/ogp?url=${encodeURIComponent(url)}`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch OGP data");
   }
 
-  return null;
-};
-
-const ogpFetcher = async (url: string) => {
-  const ogpData = await fetchOgpData(url);
-  if (!ogpData) {
-    throw new Error("Failed to fetch OGP");
+  const data: OgpResponse = await response.json();
+  if (!data.success || !data.ogp) {
+    throw new Error(data.error || "Failed to fetch OGP data");
   }
-  return ogpData;
+
+  return data.ogp;
 };
 
 export function LinkPreview({ url, children }: LinkPreviewProps) {
-  const { data, isLoading } = useSWR(url, ogpFetcher, {
+  const { data, error, isLoading } = useSWR(url, ogpFetcher, {
     revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+    shouldRetryOnError: false,
   });
 
   if (isLoading) {
@@ -116,7 +55,7 @@ export function LinkPreview({ url, children }: LinkPreviewProps) {
     );
   }
 
-  if (!data) {
+  if (error || !data) {
     return (
       <a
         href={url}

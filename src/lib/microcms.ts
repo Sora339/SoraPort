@@ -1,6 +1,13 @@
 import type { BlogArticleType, WorkArticleType } from "@/types/microcms";
 import { createClient } from "microcms-js-sdk";
 import type { MicroCMSQueries } from "microcms-js-sdk";
+import { FETCH_ALL_BATCH_LIMIT } from "@/lib/constants";
+
+const STATIC_FETCH: RequestInit = { cache: "force-cache" };
+const DRAFT_FETCH: RequestInit = { cache: "no-store" };
+
+const getRequestInit = (queries?: MicroCMSQueries) =>
+  queries?.draftKey ? DRAFT_FETCH : STATIC_FETCH;
 if (!process.env.MICROCMS_SERVICE_DOMAIN) {
   throw new Error("MICROCMS_SERVICE_DOMAIN is required");
 }
@@ -20,6 +27,7 @@ export const getWorkList = async (queries?: MicroCMSQueries) => {
   const listData = await client.getList<WorkArticleType>({
     endpoint: "works",
     queries,
+    customRequestInit: getRequestInit(queries),
   });
 
   return listData;
@@ -35,6 +43,7 @@ export const getWorkDetail = async (
       endpoint: "works",
       contentId,
       queries,
+      customRequestInit: getRequestInit(queries),
     });
 
     if (!detailData) {
@@ -54,6 +63,7 @@ export const getBlogList = async (queries?: MicroCMSQueries) => {
   const listData = await client.getList<BlogArticleType>({
     endpoint: "blogs",
     queries,
+    customRequestInit: getRequestInit(queries),
   });
 
   return listData;
@@ -69,6 +79,7 @@ export const getBlogDetail = async (
       endpoint: "blogs",
       contentId,
       queries,
+      customRequestInit: getRequestInit(queries),
     });
 
     if (!detailData) {
@@ -82,3 +93,30 @@ export const getBlogDetail = async (
     return null;
   }
 };
+
+const getAllContentIds = async (endpoint: "works" | "blogs") => {
+  const ids: string[] = [];
+  let offset = 0;
+  let totalCount = 0;
+
+  do {
+    const response = await client.getList<{ id: string }>({
+      endpoint,
+      queries: {
+        limit: FETCH_ALL_BATCH_LIMIT,
+        offset,
+        fields: "id",
+      },
+      customRequestInit: STATIC_FETCH,
+    });
+
+    ids.push(...response.contents.map((content) => content.id));
+    totalCount = response.totalCount;
+    offset += FETCH_ALL_BATCH_LIMIT;
+  } while (offset < totalCount);
+
+  return ids;
+};
+
+export const getAllWorkIds = () => getAllContentIds("works");
+export const getAllBlogIds = () => getAllContentIds("blogs");

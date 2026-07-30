@@ -11,9 +11,10 @@ export const Pagination = ({
   currentPage: number;
   basePath?: string;
 }) => {
-  const totalPages = Math.ceil(totalCount / LIMIT);
+  const totalPages = Math.max(1, Math.ceil(totalCount / LIMIT));
 
-  const createHref = (page: number) => `/${basePath}/${page}`;
+  const createHref = (page: number) =>
+    `/${basePath}/${Math.min(Math.max(page, 1), totalPages)}`;
 
   const isDisabled = (condition: boolean) =>
     condition ? "opacity-50 pointer-events-none" : "";
